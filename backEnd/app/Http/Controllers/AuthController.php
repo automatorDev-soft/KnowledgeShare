@@ -22,16 +22,43 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             // Generate an API token
-            //$token = $user->createToken('API Token')->plainTextToken;
+            $token = $user->createToken('API Token')->plainTextToken;
 
             // Return a response with the token
             return response()->json([
                 'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user,
             ], 200);
-        } 
-            return response()->json([
-                'message' => 'Invalid email or password',
-            ], 401);
+        }
+        return response()->json([
+            'message' => 'Invalid email or password',
+        ], 401);
+    }
+    public function register(Request $request){
+        // Validate the incoming request
+        $request->validate([
+            'name' =>'required',
+            'email' =>'required|email|unique:users',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        // Create a new user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' =>  Hash::make($request->password),
+        ]);
+
+        // Generate an API token
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        // Return a response with the token
+        return response()->json([
+           'message' => 'Registration successful',
+            'token' => $token,
+            'user' => $user,
+        ], 201);
     }
 
 
