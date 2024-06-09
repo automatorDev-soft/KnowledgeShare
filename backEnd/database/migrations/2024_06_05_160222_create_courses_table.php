@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->foreign("user_id")->references("id")->on("users")->onDelete('cascade');
-            $table->stirng("title");
-            $table->stirng("description");
+            $table->string("title");
+            $table->string("description");
             $table->unsignedBigInteger("category_id");
             $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
             $table->string("level");
-            $table->stirng("likes_count")->default(0);
+            $table->string("likes_count")->default(0);
             $table->timestamps();
         });
     }
