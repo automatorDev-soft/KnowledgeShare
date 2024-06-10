@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign("user_id")->references("id")->on("users")->onDelete('cascade');;
             $table->string("title");
             $table->string("content");
+            $table->unsignedBigInteger("category_id");
+            $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
             $table->string("likes_count")->default(0);
             $table->string("comments_count")->default(0);
             $table->timestamps();
